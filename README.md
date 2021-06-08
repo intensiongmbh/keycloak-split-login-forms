@@ -6,7 +6,7 @@ It is an alternative authentication flow, seperating the input fields for email 
 
 ## Keycloak support
 
-Developed and tested in Keycloak version 12.0.1.
+Developed and tested in Keycloak version 12.0.4.
 
 ## How to configure in Keycloak
 
