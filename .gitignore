@@ -1,7 +1,3 @@
-.settings/
 target/
-.project
-.classpath
 **/.flattened-pom.xml
 /bin/
-.README.md.html
