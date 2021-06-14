@@ -3,9 +3,7 @@ package de.intension.keycloak;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -20,7 +18,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.seljup.SeleniumJupiter;
 
 @ExtendWith(SeleniumJupiter.class)
-@TestMethodOrder(OrderAnnotation.class)
 class LoginFlowTest extends KeycloakExtensionTestBase
 {
 
