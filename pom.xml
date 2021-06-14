@@ -18,9 +18,9 @@
     <keycloak.version>12.0.4</keycloak.version>
     <java.version>11</java.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
-    <mockito.version>3.6.28</mockito.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit-jupiter.version>5.7.1</junit-jupiter.version>
+    <junit-jupiter.version>5.7.2</junit-jupiter.version>
+    <maven.test-plugins.version>2.22.2</maven.test-plugins.version>
   </properties>
 
   <dependencies>
@@ -148,6 +148,56 @@
             <id>agent</id>
             <goals>
               <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.test-plugins.version}</version>
+        <configuration>
+          <argLine>
+            --illegal-access=permit -Xmx1024m -XX:MaxPermSize=256m
+          </argLine>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.test-plugins.version}</version>
+        <configuration>
+          <argLine>
+            --illegal-access=permit
+          </argLine>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <forkMode>once</forkMode>
+              <argLine>-XX:MaxPermSize=256M
+                -Xmx1024M</argLine>
+            </configuration>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
             </goals>
           </execution>
         </executions>
