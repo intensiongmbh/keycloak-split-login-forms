@@ -11,7 +11,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
 /**
- * @author markus.haller
+ * 
  */
 public class TwoStepLoginWithCodeAuthenticatorFactory
     implements AuthenticatorFactory

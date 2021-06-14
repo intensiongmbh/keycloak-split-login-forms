@@ -7,7 +7,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
 import org.subethamail.wiser.Wiser;
-import org.subethamail.wiser.WiserMessage;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,8 +54,6 @@ public class KeycloakExtensionTestBase
     @BeforeEach
     public void startSMTPServer()
     {
-//		logger.debug("Setting up and starting SMTP Server before test run");
-
         int retryCount = 5;
         while (retryCount >= 0) {
             try {
@@ -65,7 +61,6 @@ public class KeycloakExtensionTestBase
                 break;
             } catch (RuntimeException re) {
                 if ((re.getCause() != null) && (re.getCause() instanceof java.net.BindException)) {
-//                    logger.debug("Setup failed for SMTP Server before test run: " + re.getCause().getMessage());
                     retryCount--;
                 }
                 else {
@@ -137,11 +132,6 @@ public class KeycloakExtensionTestBase
     {
         smtpServer.stop();
         smtpServer = null;
-    }
-
-    public List<WiserMessage> getMessages()
-    {
-        return smtpServer.getMessages();
     }
 
 }

@@ -142,7 +142,6 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
     {
         context.setUser(getUser(context));
         context.success();
-//        context.getAuthenticationSession().clearAuthNotes();
 
     }
 
