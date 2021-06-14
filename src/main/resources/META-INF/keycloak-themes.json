@@ -1,0 +1,6 @@
+{
+    "themes": [{
+        "name" : "Split-Login-Forms",
+        "types": ["login"]  
+    }]
+}
