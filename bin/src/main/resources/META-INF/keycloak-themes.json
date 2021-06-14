@@ -1,6 +1,0 @@
-{
-    "themes": [{
-        "name" : "Split-login form",
-        "types": [ "email" ,"login"]  
-    }]
-}
