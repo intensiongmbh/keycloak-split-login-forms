@@ -60,7 +60,9 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
     {
         if (!CookieHelper.getCookieValue(KEYCLOAK_REMEMBER_ME).isEmpty()) {
             setUserByUsername(context, CookieHelper.getCookieValue(KEYCLOAK_REMEMBER_ME).toString().substring(10).replace("]", ""));
+            context.getAuthenticationSession().setAuthNote(Details.REMEMBER_ME, "true");
             redirectBasedOnIdentificatorInput(context, getUserEmail(context, null));
+            saveRememberMeDecision(context, null);
         }
         else {
             context.challenge(context.form().createForm(FTL_ENTER_EMAIL));
@@ -91,11 +93,22 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
 
         if (context.getSession().userCredentialManager().isValid(context.getRealm(), context.getUser(), UserCredentialModel.password(passwordInput))) {
 
-            if (context.getRealm().isRememberMe() && CookieHelper.getCookieValue(KEYCLOAK_REMEMBER_ME).isEmpty()) {
-                context.challenge(context.form().createForm(FTL_STAY_LOGGED_IN));
+            if (context.getRealm().isRememberMe()) {
+
+                try {
+                    if (context.getAuthenticationSession().getAuthNote(Details.REMEMBER_ME).equals("true")) {
+                        saveRememberMeDecision(context, "refreshing token");
+                        loginUser(context);
+                    }
+                    else {
+                        context.challenge(context.form().createForm(FTL_STAY_LOGGED_IN));
+                    }
+                } catch (NullPointerException e) {
+                    context.challenge(context.form().createForm(FTL_STAY_LOGGED_IN));
+                }
             }
             else {
-                if (!CookieHelper.getCookieValue(KEYCLOAK_REMEMBER_ME).isEmpty()) {
+                if (context.getAuthenticationSession().getAuthNote(Details.REMEMBER_ME).equals("true")) {
                     saveRememberMeDecision(context, "refreshing token");
                 }
                 loginUser(context);
@@ -117,7 +130,6 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
             CookieHelper.addCookie(KEYCLOAK_REMEMBER_ME, "username:" + context.getUser().getUsername(), path, null, null, 31536000, secureOnly, true);
         }
         else {
-            context.getAuthenticationSession().removeAuthNote(Details.REMEMBER_ME);
             String path = getIdentityCookiePath(context.getRealm(), context.getSession().getContext().getUri());
             String cookieName = KEYCLOAK_REMEMBER_ME;
             logger.debugf("Expiring cookie: %s path: %s", cookieName, path);
@@ -130,6 +142,7 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
     {
         context.setUser(getUser(context));
         context.success();
+//        context.getAuthenticationSession().clearAuthNotes();
 
     }
 
