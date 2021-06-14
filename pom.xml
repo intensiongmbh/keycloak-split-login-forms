@@ -9,8 +9,8 @@
   <artifactId>keycloak-split-login-forms</artifactId>
   <packaging>jar</packaging>
 
-  <name>Keycloak-split-login-forms</name>
-  <description>Provides system to login using a code sent by e-mail instead of using a password.</description>
+  <name>Keycloak Split Login Forms</name>
+  <description>Provides alternative authentication flow for Keycloak, separating the input fields for email and password.</description>
 
   <properties>
     <revision>1.0.0</revision>
@@ -92,45 +92,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.icegreen</groupId>
-      <artifactId>greenmail</artifactId>
-      <version>1.6.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>selenium-jupiter</artifactId>
       <version>3.4.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.subethamail</groupId>
-      <artifactId>subethasmtp</artifactId>
-      <version>3.1.7</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-        </exclusion>
-      </exclusions>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>2.3.29</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
-
-
   <build>
-    <finalName>keycloak-split-login-forms</finalName>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -160,31 +136,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <version>1.0.1</version>
-        <configuration>
-          <updatePomFile>true</updatePomFile>
-        </configuration>
-        <executions>
-          <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.2</version>
@@ -201,7 +152,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
 </project>

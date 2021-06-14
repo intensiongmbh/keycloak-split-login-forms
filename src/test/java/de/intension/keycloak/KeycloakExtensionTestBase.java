@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
-import org.subethamail.wiser.Wiser;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,8 +31,6 @@ public class KeycloakExtensionTestBase
 
     protected ObjectMapper                mapper = new ObjectMapper();
 
-    public Wiser                          smtpServer;
-
     @BeforeAll
     public static void beforeClass()
     {
@@ -49,26 +46,6 @@ public class KeycloakExtensionTestBase
                                               keycloak.getAdminPassword(), "admin-cli");
 
         keycloakClient.realm(REALM);
-    }
-
-    @BeforeEach
-    public void startSMTPServer()
-    {
-        int retryCount = 5;
-        while (retryCount >= 0) {
-            try {
-                startServer();
-                break;
-            } catch (RuntimeException re) {
-                if ((re.getCause() != null) && (re.getCause() instanceof java.net.BindException)) {
-                    retryCount--;
-                }
-                else {
-                    throw re;
-                }
-            }
-        }
-
     }
 
     protected String getAdminToken()
@@ -98,15 +75,6 @@ public class KeycloakExtensionTestBase
         return javaClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private void startServer()
-    {
-        smtpServer = new Wiser();
-        smtpServer.setHostname("localhost");
-        smtpServer.setPort(25);
-        smtpServer.start();
-        smtpServer.getMessages().clear();
-    }
-
     private String retrieveToken(String responseBody)
         throws Exception
     {
@@ -126,12 +94,4 @@ public class KeycloakExtensionTestBase
         }
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
-
-    @AfterEach
-    public void stopSMTPServer()
-    {
-        smtpServer.stop();
-        smtpServer = null;
-    }
-
 }

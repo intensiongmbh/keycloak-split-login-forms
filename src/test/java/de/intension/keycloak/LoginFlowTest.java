@@ -1,8 +1,6 @@
 package de.intension.keycloak;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -100,7 +98,7 @@ class LoginFlowTest extends KeycloakExtensionTestBase
         Actions act = new Actions(driver);
         act.sendKeys(Keys.ENTER).perform();
         act.sendKeys("signon.rememberSignons").perform();
-        Thread.sleep(200);
+        TimeUnit.MILLISECONDS.sleep(200);
         act.sendKeys(Keys.TAB, Keys.TAB, Keys.TAB, Keys.ENTER).perform();
 
         driver.get("about:logins");
