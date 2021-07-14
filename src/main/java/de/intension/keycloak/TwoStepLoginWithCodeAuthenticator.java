@@ -126,15 +126,13 @@ public class TwoStepLoginWithCodeAuthenticator extends AuthenticationManager
             context.getEvent().detail(Details.REMEMBER_ME, "true");
 
             String path = getIdentityCookiePath(context.getRealm(), context.getSession().getContext().getUri());
-            boolean secureOnly = true;
-            CookieHelper.addCookie(KEYCLOAK_REMEMBER_ME, "username:" + context.getUser().getUsername(), path, null, null, 31536000, secureOnly, true);
+            CookieHelper.addCookie(KEYCLOAK_REMEMBER_ME, "username:" + context.getUser().getUsername(), path, null, null, 31536000, true, true);
         }
         else {
             String path = getIdentityCookiePath(context.getRealm(), context.getSession().getContext().getUri());
             String cookieName = KEYCLOAK_REMEMBER_ME;
             logger.debugf("Expiring cookie: %s path: %s", cookieName, path);
-            boolean secureOnly = true;
-            CookieHelper.addCookie(cookieName, "", path, null, "Expiring cookie", 0, secureOnly, true);
+            CookieHelper.addCookie(cookieName, "", path, null, "Expiring cookie", 0, true, true);
         }
     }
 

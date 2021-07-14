@@ -1,5 +1,6 @@
 package de.intension.keycloak;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.keycloak.Config;
@@ -77,7 +78,7 @@ public class TwoStepLoginWithCodeAuthenticatorFactory
     @Override
     public List<ProviderConfigProperty> getConfigProperties()
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
